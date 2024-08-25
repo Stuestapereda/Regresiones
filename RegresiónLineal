@@ -1,0 +1,97 @@
+import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from itertools import combinations
+from sklearn.model_selection import train_test_split
+
+# Load the dataset
+archivo = pd.read_csv("Advertising.csv")
+
+# Define independent variables
+variables = ['TV', 'Radio', 'Newspaper']
+
+# Split the dataset into training and testing sets (70% training, 30% testing)
+train, test = train_test_split(archivo, test_size=0.3, random_state=42)
+
+# Correlation Matrix for Independent Variables
+corr_matrix = train[variables].corr()
+
+# Plot correlation matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Correlation Matrix for Independent Variables')
+plt.show()
+
+# Function to calculate VIF for a given set of variables
+def calculate_vif(X):
+    vif_data = {}
+    for i in range(len(X.columns)):
+        X_i = X.iloc[:, i]
+        X_not_i = X.drop(X.columns[i], axis=1)
+        R2_i = np.corrcoef(X_i, np.linalg.lstsq(X_not_i, X_i, rcond=None)[0] @ X_not_i.T)[0, 1] ** 2
+        vif_data[X.columns[i]] = 1 / (1 - R2_i)
+    return vif_data
+
+# Function to calculate adjusted R-squared
+def adjusted_r_squared(r_squared, n, p):
+    return 1 - (1 - r_squared) * (n - 1) / (n - p - 1)
+
+# Prepare lists to store results
+results = []
+
+# Perform regression for each combination of independent variables
+for i in range(1, len(variables) + 1):
+    for combo in combinations(variables, i):
+        X_train = train[list(combo)]
+        y_train = train['Sales']
+        X_test = test[list(combo)]
+        y_test = test['Sales']
+        
+        # Add intercept term
+        X_train = np.c_[np.ones(X_train.shape[0]), X_train]
+        X_test = np.c_[np.ones(X_test.shape[0]), X_test]
+        
+        # Calculate coefficients using OLS
+        beta = np.linalg.inv(X_train.T @ X_train) @ X_train.T @ y_train
+        
+        # Make predictions
+        y_pred = X_test @ beta
+        
+        # Calculate MSE and MAE
+        mse = np.mean((y_test - y_pred) ** 2)
+        mae = np.mean(np.abs(y_test - y_pred))
+        
+        # Calculate R-squared
+        ss_tot = np.sum((y_test - np.mean(y_test)) ** 2)
+        ss_res = np.sum((y_test - y_pred) ** 2)
+        r_squared = 1 - (ss_res / ss_tot)
+        
+        # Calculate adjusted R-squared
+        adj_r_squared = adjusted_r_squared(r_squared, len(y_test), len(combo))
+        
+        # Calculate VIF
+        X_train_no_intercept = train[list(combo)]
+        vif = calculate_vif(X_train_no_intercept)
+        
+        # Store results
+        results.append({
+            'Variables': combo,
+            'Coefficients': beta,
+            'MSE': mse,
+            'MAE': mae,
+            'R-squared': r_squared,
+            'Adjusted R-squared': adj_r_squared,
+            'VIF': vif
+        })
+
+# Display results
+for result in results:
+    print(f"Variables: {result['Variables']}")
+    print(f"Coefficients: {result['Coefficients']}")
+    print(f"MSE: {result['MSE']:.2f}")
+    print(f"MAE: {result['MAE']:.2f}")
+    print(f"R-squared: {result['R-squared']:.2f}")
+    print(f"Adjusted R-squared: {result['Adjusted R-squared']:.2f}")
+    print(f"VIF: {result['VIF']}\n")
