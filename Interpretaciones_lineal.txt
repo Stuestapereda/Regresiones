@@ -1,0 +1,21 @@
+Interpretación
+Relación entre Variables y Ventas:
+
+TV:
+-La alta correlación (0.782) y el alto R² (0.643) indican que la publicidad en TV tiene una fuerte relación con las ventas. Esto significa que el modelo de regresión lineal basado en TV puede explicar una gran parte de la variación en las ventas.
+-Los errores MAE y MSE son relativamente menores en comparación con las otras variables, indicando que el modelo para TV proporciona predicciones más precisas y menos errorosas en promedio.
+
+Radio:
+-La correlación (0.576) y el R² (0.298) muestran una relación moderada con las ventas. Aunque la variable Radio tiene un efecto significativo, no explica tanta variación en las ventas como la TV.
+-Los valores de MAE y MSE son mayores que los de TV, lo que sugiere que las predicciones basadas en Radio son menos precisas y más propensas a errores.
+
+Newspaper:
+-La correlación (0.228) y el bajo R² (0.042) indican una relación débil con las ventas. El modelo basado en Newspaper explica solo una pequeña parte de la variación en las ventas, lo que sugiere que esta variable tiene una influencia limitada.
+-Los MAE y MSE más altos para Newspaper reflejan que las predicciones para esta variable son las menos precisas entre las tres variables, con errores más grandes en promedio.
+
+Conclusiones:
+-Influencia en Ventas: La publicidad en TV tiene el impacto más significativo en las ventas de acuerdo con el R² y las métricas de error. Si el objetivo es maximizar las ventas, invertir en publicidad en TV parece ser la opción más efectiva.
+
+-Radio también tiene un efecto positivo pero menos significativo comparado con TV. Aunque el p-value indica que es relevante, los errores mayores sugieren que puede no ser tan eficaz como la TV.
+
+-Newspaper tiene la menor influencia en las ventas entre las tres variables y los errores más grandes, lo que sugiere que puede no ser una inversión tan efectiva para mejorar las ventas.
