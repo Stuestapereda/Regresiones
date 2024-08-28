@@ -32,7 +32,7 @@ def plotear_regresion(x,y,y1,d):
     plt.figure(figsize=(10, 6))
     plt.plot(x,y1,"red",label=f"{d}")
     plt.scatter(x,y,label="Datos originales")
-    plt.xlabel("TV")
+    plt.xlabel(f"{d}")
     plt.ylabel("Sales")
     plt.savefig(f'Regresión_lineal_{d}.png')
     plt.legend()
@@ -96,18 +96,21 @@ x1=df["TV"][:-40]
 b1_1,b0_1=coeficientes(x1,y)
 y1=[b0_1+b1_1*i for i in x1]
 plotear_regresion(x1,y,y1,"TV")
+print(f"b0={b0_1}, b1={b1_1}")
 
 #Analizando la relación entre "sales" y la publicidad por TV
 x2=df["Radio"][:-40]
 b1_2,b0_2=coeficientes(x2,y)
 y2=[b0_2+b1_2*i for i in x2]
 plotear_regresion(x2,y,y2,"Radio")
+print(f"b0={b0_2}, b1={b1_2}")
 
 #Analizando la relación entre "sales" y la publicidad por TV
 x3=df["Newspaper"][:-40]
 b1_3,b0_3=coeficientes(x3,y)
 y3=[b0_3+b1_3*i for i in x3]
 plotear_regresion(x3,y,y3,"Newspaper")
+print(f"b0={b0_3}, b1={b1_3}")
 
 #3 Realizando diagnóstico ----------------------------------
 
