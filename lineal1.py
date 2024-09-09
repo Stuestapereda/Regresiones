@@ -127,17 +127,17 @@ efecto significativo sobre la variable dependiente
 #Calculando SE, el estadístico t y el p value el para TV vs Sales
 SE_1=SE(x1,y,y1)
 t1 = b1_1/SE_1
-p_value1 = 2 * (1 - stats.t.cdf(abs(t1), len(x1)))
+p_value1 = 2 * (1 - stats.t.cdf(abs(t1), len(x1)-2))
 
 #Calculando SE para Radio vs Sales
 SE_2=SE(x2,y,y2)
 t2 = b1_2/SE_2
-p_value2 = 2 * (1 - stats.t.cdf(abs(t2), len(x2)))
+p_value2 = 2 * (1 - stats.t.cdf(abs(t2), len(x2)-2))
 
 #Calculando SE para Newspaper vs Sales
 SE_3=SE(x3,y,y3)
 t3 = b1_3/SE_3
-p_value3 = 2 * (1 - stats.t.cdf(abs(t3), len(x3)))
+p_value3 = 2 * (1 - stats.t.cdf(abs(t3), len(x3)-2))
 
 print(f"p-value Radio: {p_value2}")
 print(f"p-value TV: {p_value1}")
